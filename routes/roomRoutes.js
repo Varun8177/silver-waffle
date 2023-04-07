@@ -42,7 +42,7 @@ RoomRouter.post("/create-room", async (req, res) => {
         const payload = { roomName: room[0], randomWords: RandomWords }
         const data = new RoomModel(payload)
         await data.save()
-        data.Share_URL = `http://localhost:8080/rooms/${data._id}`
+        data.Share_URL = `https://ivory-donkey-suit.cyclic.app/rooms/${data._id}`
         res.send(data)
     } catch (error) {
         res.send({
