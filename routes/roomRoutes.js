@@ -19,7 +19,7 @@ RoomRouter.get("/", async (req, res) => {
 RoomRouter.get("/:id", async (req, res) => {
     const { id } = req.params
     try {
-        const data = await RoomModel.findById({ _id: id })
+        const data = await RoomModel.findOne({ roomName: id })
         res.send(data)
     } catch (error) {
         res.send({
@@ -29,8 +29,9 @@ RoomRouter.get("/:id", async (req, res) => {
 })
 
 RoomRouter.post("/create-room", async (req, res) => {
+    const { userID } = req.body
     try {
-        const room = randomWords({ exactly: 1, wordsPerString: 2, separator: '-' });
+        const room = userID
         const words = randomWords({ exactly: 16, maxLength: 6 })
         const RandomWords = await Promise.all(
             words.map((word) =>
@@ -39,7 +40,7 @@ RoomRouter.post("/create-room", async (req, res) => {
                 )
             )
         );
-        const payload = { roomName: room[0], randomWords: RandomWords }
+        const payload = { roomName: room, randomWords: RandomWords }
         const data = new RoomModel(payload)
         await data.save()
         data.Share_URL = `https://ivory-donkey-suit.cyclic.app/rooms/${data._id}`
