@@ -1,11 +1,12 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const cors = require("cors")
 const connection = require("./config/db")
 const RoomRouter = require("./routes/roomRoutes")
 const UserRouter = require("./routes/userRoutes")
 require("dotenv").config()
 const app = express()
-
+app.use(cors())
 app.use(express.json())
 
 app.get("/", (req, res) => {
